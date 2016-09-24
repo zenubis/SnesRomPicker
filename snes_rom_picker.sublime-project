@@ -1,0 +1,7 @@
+{
+	"build_systems": [{
+	    "name": "Run with args",
+	    "cmd": ["python", "$file", "C:\\Users"]
+	}]
+}
+
