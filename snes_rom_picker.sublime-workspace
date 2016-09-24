@@ -4,6 +4,34 @@
 		"selected_items":
 		[
 			[
+				"rom",
+				"rom_info"
+			],
+			[
+				"cur",
+				"curveBracketStart"
+			],
+			[
+				"new",
+				"new_lang"
+			],
+			[
+				"re",
+				"results"
+			],
+			[
+				"game",
+				"game_name"
+			],
+			[
+				"gam",
+				"game_name"
+			],
+			[
+				"file",
+				"file_extension"
+			],
+			[
 				"scan",
 				"scanpath"
 			]
@@ -15,8 +43,16 @@
 			"file": "snes_rom_picker.py",
 			"settings":
 			{
-				"buffer_size": 444,
+				"buffer_size": 7613,
 				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "snes_rom_picker.sublime-project",
+			"settings":
+			{
+				"buffer_size": 141,
+				"line_ending": "Unix"
 			}
 		}
 	],
@@ -48,6 +84,9 @@
 	},
 	"file_history":
 	[
+		"/C/Users/pollyanna/Documents/python/SnesRomPicker/snes_rom_picker.sublime-project",
+		"/C/Users/pollyanna/Documents/python/SnesRomPicker/snes_rom_picker.sublime-workspace",
+		"/C/Users/pollyanna/Documents/python/SnesRomPicker/snes_rom_picker.py",
 		"/C/Users/pollyanna/Documents/python/snes_rom_picker.sublime-workspace",
 		"/C/Users/pollyanna/Documents/python/snes_rom_picker.sublime-project"
 	],
@@ -67,6 +106,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"}',",
+			"UK"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -92,21 +133,47 @@
 					"file": "snes_rom_picker.py",
 					"settings":
 					{
-						"buffer_size": 444,
+						"buffer_size": 7613,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								443,
-								443
+								7289,
+								7289
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/Python/Python.tmLanguage",
 							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 3486.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "snes_rom_picker.sublime-project",
+					"settings":
+					{
+						"buffer_size": 141,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1,
+								1
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -150,7 +217,7 @@
 	"menu_visible": true,
 	"output.exec":
 	{
-		"height": 229.0
+		"height": 239.0
 	},
 	"output.find_results":
 	{
