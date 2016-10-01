@@ -24,17 +24,22 @@ import sys;
 import glob;
 import os;
 import re;
+import errno;
+import shutil;
 
 # suffixes and their meaning
 # https://64bitorless.wordpress.com/rom-suffix-explanations/
 
 # purpose of the program is to select the best english and japanese rom for any particular game
 # selection criteria are
-# 1) verified roms '[!]'
-# 2) fixed roms '[f]'
-# 3) alternate roms '[a]'
-# 4) roms without any flag
-# roms marked with '[b]' will be avoided
+# 1) Verified roms '[!]'
+# 2) Fixed roms '[f]'
+# 3) Alternate roms '[a]'
+# 4) Roms without any flag
+# Roms marked with '[b]' will be avoided
+
+# configurables
+output_folder_name = "filtered"
 
 # to store information about a particular rom file
 class CRomInfo:
@@ -127,6 +132,12 @@ filteredList = {};	# hash map of CSelection with name as key
 def processDir(path):
 	print "processDir:", path;
 	global filteredList;
+
+	# filtered is a reserved folder name for our output
+	if os.path.basename(path) == output_folder_name and os.path.isdir(path):
+		print "Skipping", path
+		return;
+
 	files = glob.glob(path + os.path.sep + "*");
 	# files = ['C:\Users\pollyanna\Downloads\GoodSNES2.04\Zero 4 Champ RR (beta) [!].smc'];
 	for thefile in files:
@@ -137,7 +148,7 @@ def processDir(path):
 			# print filename
 			filename, file_extension = os.path.splitext(os.path.basename(thefile))
 			if not file_extension == ".smc":
-				print "skipping", thefile 
+				print "skipping", thefile;
 				continue;
 
 			squareBracketStart = False;
@@ -236,15 +247,63 @@ if not os.path.isdir(sys.argv[1]):
 	print "Error: path is not a directory -", sys.argv[1];
 	exit(1);
 
+dest_folder = sys.argv[1] + os.path.sep + output_folder_name + os.path.sep;
+
+try:
+	os.makedirs(dest_folder);
+except OSError as exception:
+	if exception.errno != errno.EEXIST:
+		print exception
+		exit(1);
+	else:
+		if os.listdir(dest_folder):
+			print "Error: destination folder exists and is not empty.";
+			exit(1);
+
 processDir(sys.argv[1]);
 
-# print "Total files:", filecounter;
-for key in sorted(filteredList.keys()):
-	print key
-	print "  eng    :", filteredList[key].eng
-	print "  jp     :", filteredList[key].jp
+num_files = 0;
+max_path_len = 0;
+for game_name in sorted(filteredList.keys()):
+	num_files = num_files + 1;
+	print "{0}) {1}".format(num_files, game_name);
+	print "  eng    :", filteredList[game_name].eng
+	print "  jp     :", filteredList[game_name].jp
 	print "  skipped:"
-	for rom in filteredList[key].skip:
+	if filteredList[game_name].eng:
+		if filteredList[game_name].eng.path:
+			len_path = len(filteredList[game_name].eng.path);
+			if max_path_len < len_path:
+				max_path_len = len_path
+	if filteredList[game_name].jp:
+		if filteredList[game_name].jp.path:
+			len_path = len(filteredList[game_name].jp.path);
+			if max_path_len < len_path:
+				max_path_len = len_path
+	for rom in filteredList[game_name].skip:
 		print "         :", rom
+
+print "\nNo. of games processed:", num_files;
+
+
+
+print "Copying to", dest_folder;
+
+num_files = 0;
+for game_name in sorted(filteredList.keys()):
+
+	if filteredList[game_name].eng:
+		dst = dest_folder + os.path.basename(filteredList[game_name].eng.path)
+		print "{0:{1}s} => {2}".format(filteredList[game_name].eng.path, max_path_len, dst);
+		shutil.copyfile(filteredList[game_name].eng.path, dst);
+		num_files = num_files + 1;
+		
+	if filteredList[game_name].jp:
+		dst = dest_folder + os.path.basename(filteredList[game_name].jp.path)
+		print "{0:{1}s} => {2}".format(filteredList[game_name].jp.path, max_path_len, dst);
+		shutil.copyfile(filteredList[game_name].jp.path, dst);
+		num_files = num_files + 1;
+	
+print "\nNo. of games copied:", num_files;
 
 ################ main program ends ################################
